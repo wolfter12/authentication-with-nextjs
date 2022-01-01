@@ -1,6 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
+import { signIn } from "next-auth/client";
 
 import classes from "./auth-form.module.css";
+
+// TODO: migrate next-auth v3 to v4
 
 async function createUser(email, password) {
   const response = await fetch("/api/auth/signup", {
@@ -30,7 +33,16 @@ function AuthForm() {
     password: "",
   });
 
+  useEffect(() => {
+    setAuthFormValues({
+      email: "",
+      password: "",
+    });
+  }, [isLogin]);
+
   const { email, password } = authFormValues;
+  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedPassword = password.trim();
 
   const onChangeHandler = ({ target: { name, value } }) => {
     setAuthFormValues((prevState) => ({
@@ -49,10 +61,18 @@ function AuthForm() {
     // TODO: add email and password validation
 
     if (isLogin) {
-      // log user in
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: normalizedEmail,
+        password: normalizedPassword,
+      });
+
+      if (!result?.error) {
+        // set some auth state
+      }
     } else {
       try {
-        const result = await createUser(email, password);
+        const result = await createUser(normalizedEmail, normalizedPassword);
         setAuthFormValues({
           email: "",
           password: "",
