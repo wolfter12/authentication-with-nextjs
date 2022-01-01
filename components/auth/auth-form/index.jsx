@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { signIn } from "next-auth/client";
+import { useRouter } from "next/router";
 
 import classes from "./auth-form.module.css";
 
@@ -32,6 +33,7 @@ function AuthForm() {
     email: "",
     password: "",
   });
+  const router = useRouter();
 
   useEffect(() => {
     setAuthFormValues({
@@ -68,7 +70,7 @@ function AuthForm() {
       });
 
       if (!result?.error) {
-        // set some auth state
+        router.replace("/profile");
       }
     } else {
       try {
