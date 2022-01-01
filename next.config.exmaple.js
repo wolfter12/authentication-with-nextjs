@@ -11,6 +11,7 @@ module.exports = (phase) => {
         MONGODB_PASSWORD: "password_dev",
         MONGODB_CLUSTERNAME: "cluster_name_dev",
         MONGODB_DATABASE: "db_name_dev",
+        NEXTAUTH_URL: "https://1.2.3.4.5678",
       },
     };
   }
@@ -24,6 +25,7 @@ module.exports = (phase) => {
       MONGODB_PASSWORD: "password_dev",
       MONGODB_CLUSTERNAME: "cluster_name_dev",
       MONGODB_DATABASE: "db_name_dev",
+      NEXTAUTH_URL: "https://1.2.3.4.5678",
     },
   };
 };
