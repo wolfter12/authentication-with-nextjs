@@ -22,13 +22,11 @@ async function handler(req, res) {
 
       if (!email || !validateEmail(normalizedEmail)) {
         res.status(422).json({ message: "Invalid email" });
-        client.close();
         return;
       }
 
       if (!password || !validatePassword(normalizedPassword)) {
         res.status(422).json({ message: "Invalid password" });
-        client.close();
         return;
       }
 
@@ -48,7 +46,7 @@ async function handler(req, res) {
 
       const hashedPassword = await hashPassword(normalizedPassword);
 
-      const result = db.collection("users").insertOne({
+      const result = await db.collection("users").insertOne({
         email: normalizedEmail,
         password: hashedPassword,
       });
