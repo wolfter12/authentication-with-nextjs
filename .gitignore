@@ -35,3 +35,7 @@ yarn-error.log*
 
 # next config
 next.config.js
+
+# idea
+.idea
+.vscode
