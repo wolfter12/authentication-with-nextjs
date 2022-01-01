@@ -22,17 +22,29 @@ async function handler(req, res) {
 
       if (!email || !validateEmail(normalizedEmail)) {
         res.status(422).json({ message: "Invalid email" });
+        client.close();
         return;
       }
 
       if (!password || !validatePassword(normalizedPassword)) {
         res.status(422).json({ message: "Invalid password" });
+        client.close();
         return;
       }
 
       const client = await connectToDatabase();
 
       const db = client.db();
+
+      const existingUser = await db
+        .collection("users")
+        .findOne({ email: normalizedEmail });
+
+      if (existingUser) {
+        res.status(422).json({ message: "User exists already!" });
+        client.close();
+        return;
+      }
 
       const hashedPassword = await hashPassword(normalizedPassword);
 
@@ -42,6 +54,7 @@ async function handler(req, res) {
       });
 
       res.status(201).json({ message: "Created user!" });
+      client.close();
       break;
 
     default:
