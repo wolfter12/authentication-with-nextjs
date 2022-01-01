@@ -35,7 +35,7 @@ async function handler(req, res) {
       const db = client.db();
 
       const hashedPassword = await hashPassword(normalizedPassword);
-      console.log('hashedPassword', hashedPassword);
+
       const result = db.collection("users").insertOne({
         email: normalizedEmail,
         password: hashedPassword,
